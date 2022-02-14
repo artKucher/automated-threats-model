@@ -1,8 +1,7 @@
-Django==3.1.7
-psycopg2-binary==2.8.6
-django-debug-toolbar==3.2
-uvicorn==0.13.3
-gunicorn==20.0.4
-djangorestframework==3.12.2
-uvloop==0.15.2
-httptools==0.1.1
+Django
+psycopg2-binary
+djangorestframework
+drf-yasg
+django-debug-toolbar
+uvicorn
+gunicorn

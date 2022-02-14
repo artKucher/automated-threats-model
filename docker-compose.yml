@@ -1,28 +1,31 @@
 version: '3'
 services:
-  server:
-    command: /bin/bash ./bin/prod.sh
+  django:
+    command: /usr/local/bin/python manage.py migrate
+             /usr/local/bin/python manage.py collectstatic --noinput
+             /usr/local/bin/gunicorn backend.asgi:application -w 1 -b :8000 -k uvicorn.workers.UvicornWorker
     build:
       context: ./server
       dockerfile: Dockerfile
       args:
         buildno: 1
-    container_name: cserver
+    image: django_atm
+    container_name: django_atm
     env_file: .env
     volumes:
-      - ./server:/app
+      - ./server:/server
       - ./logs/gunicorn:/var/log/gunicorn
       - ./frontend/dist:/app/app/static/dist
     expose:
       - "8000"
     depends_on:
-      - db
+      - postgres
     ports:
       - "8443:8443"
     restart: always
-  db:
-    image: postgres:11.0
-    container_name: cdb
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres_atm
     restart: always
     expose:
       - "5432"
@@ -30,11 +33,12 @@ services:
     volumes:
       - ./pgdata:/var/lib/postgresql/data
   nginx:
-    container_name: nginx
+    container_name: nginx_atm
     restart: always
     build:
       context: ./nginx/
       dockerfile: Dockerfile
+    image: nginx_atm
     ports:
       - "80:80"
       - "443:443"
@@ -45,8 +49,8 @@ services:
       - ./nginx/certs:/etc/nginx/certs
       - ./server:/app
     depends_on:
-      - db
-      - server
+      - postgres
+      - django
       - frontend
   frontend:
     command: npm run build
@@ -55,7 +59,8 @@ services:
       dockerfile: Dockerfile
       args:
         buildno: 1
-    container_name: cfront
+    container_name: frontend_atm
+    image: frontend_atm
     volumes:
       - ./frontend:/app
       - /app/node_modules

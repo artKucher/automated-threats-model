@@ -1,6 +1,5 @@
-FROM python:3.8
-RUN apt-get update
-RUN mkdir /app
-WORKDIR /app
-ADD . /app
+FROM python:3.10-slim
+RUN mkdir /server
+WORKDIR /server
+ADD . /server
 RUN pip install -r requirements.txt

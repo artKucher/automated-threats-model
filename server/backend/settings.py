@@ -24,7 +24,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', '*6k@6^#8iww1r_iy1wc-!76h%zqbc6=h_&e9y=^3(l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv('IS_DEBUG', False))
 
-ALLOWED_HOSTS = ['185.185.69.11', 'localhost', '*']
+ALLOWED_HOSTS = ['localhost', '*']
 
 
 def show_toolbar(request):
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     'app'
 ]
 
@@ -154,3 +155,5 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     # 'PAGE_SIZE': 50
 }
+
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'

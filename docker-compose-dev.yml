@@ -1,13 +1,13 @@
 version: '3'
 services:
-  server:
-    command: /bin/bash ./bin/dev.sh
+  django:
+    command: ./manage.py runserver 0.0.0.0:8000
     environment:
       IS_DEBUG: "TRUE"
   nginx:
     volumes:
       - ./nginx/sites-enabled-dev:/etc/nginx/sites-enabled
-  db:
+  postgres:
     ports:
       - "5432:5432"
   frontend:

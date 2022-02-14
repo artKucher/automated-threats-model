@@ -4,7 +4,7 @@ default: run
 
 define set-default-container
 	ifndef c
-	c = server
+	c = django
 	else ifeq (${c},all)
 	override c=
 	endif
@@ -22,10 +22,10 @@ set-container:
 build: set-container
 	docker-compose build ${c}
 
-run:
+prod:
 	docker-compose up -d --force-recreate ${c}
 
-dev:
+run:
 	docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate ${c}
 
 restart: set-container
@@ -40,7 +40,7 @@ down:
 exec: set-container
 	docker-compose exec ${c} /bin/bash
 
-log: set-container
+logs: set-container
 	docker-compose logs -f ${c}
 
 
@@ -58,7 +58,7 @@ local: dev-local-deps
 makemigrations:
 	docker-compose exec server ./manage.py makemigrations
 
-migrate: makemigrations
+migrate:
 	docker-compose exec server ./manage.py migrate
 
 collectstatic:
