@@ -1,4 +1,4 @@
-# docker-django-react
+# Система моделирования угроз
 
 ### install
 * git clone https://github.com/qqmikey/docker-django-react.git

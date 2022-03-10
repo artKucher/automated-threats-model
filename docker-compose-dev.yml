@@ -1,6 +1,7 @@
 version: '3'
 services:
   django:
+    platform: linux/amd64
     command: ./manage.py runserver 0.0.0.0:8000
     environment:
       IS_DEBUG: "TRUE"

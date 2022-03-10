@@ -20,7 +20,7 @@ set-container:
 	$(eval $(call set-default-container))
 
 build: set-container
-	docker-compose build ${c}
+	docker-compose -f docker-compose.yml -f docker-compose-dev.yml build ${c}
 
 prod:
 	docker-compose up -d --force-recreate ${c}

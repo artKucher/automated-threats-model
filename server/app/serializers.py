@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
-from app.models import Asset, Interface
+from app.models import AssetType, Interface
 
 
 class AssetSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Asset
+        model = AssetType
         fields = ['id', 'name']
 
 

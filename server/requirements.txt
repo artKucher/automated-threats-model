@@ -5,3 +5,6 @@ drf-yasg
 django-debug-toolbar
 uvicorn
 gunicorn
+xmltodict
+pandas
+openpyxl
