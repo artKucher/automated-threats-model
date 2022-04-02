@@ -46,17 +46,15 @@ class Command(BaseCommand):
 
         return attackers
 
-
     def parse_asset_types(self, data: str):
         asset_types = set()
+        #data = data.replace(',', ';')
         for asset_type in data.split(';'):
-            asset_type, _ = AssetType.objects.get_or_create(name=asset_type.strip())
+            name = asset_type.strip()
+            name = name[:1].upper()+name[1:]
+            asset_type, _ = AssetType.objects.get_or_create(name=name)
             asset_types.add(asset_type)
         return asset_types
-
-
-
-        pass
 
     def handle(self, *args, **options):
 

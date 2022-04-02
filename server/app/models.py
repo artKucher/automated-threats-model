@@ -38,6 +38,19 @@ class Asset(BaseModel):
         verbose_name_plural = 'Объекты'
 
 
+class System(BaseModel):
+    class TypeChoices(models.TextChoices):
+        ISPDN = 'ISPDN', 'ИСПДн'
+        ASUTP = 'ASUTP', 'АСУТП'
+
+    type = models.CharField('Тип', max_length=8, choices=TypeChoices.choices)
+    assets = models.ManyToManyField(Asset, verbose_name='Объекты')
+
+    class Meta:
+        verbose_name = 'Система'
+        verbose_name_plural = 'Системы'
+
+
 class Interface(BaseModel):
     asset_type = models.ForeignKey(AssetType, on_delete=models.CASCADE, verbose_name='Тип объекта')
 
@@ -72,7 +85,7 @@ class Attacker(models.Model):
     level = models.CharField('Уровень', max_length=2, choices=CapabilityLevelChoices.choices, null=True)
 
     def __str__(self):
-        return f'{self.type} {self.potential}, {self.level}'
+        return f'{self.get_type_display()} {self.get_potential_display()} {self.get_level_display() or ""}'
 
     class Meta:
         verbose_name = 'Нарушитель'

@@ -25,7 +25,7 @@ build: set-container
 prod:
 	docker-compose up -d --force-recreate ${c}
 
-run:
+up:
 	docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate ${c}
 
 restart: set-container

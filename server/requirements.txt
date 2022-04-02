@@ -8,3 +8,5 @@ gunicorn
 xmltodict
 pandas
 openpyxl
+markdown
+xhtml2pdf
