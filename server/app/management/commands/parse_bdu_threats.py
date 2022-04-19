@@ -1,12 +1,9 @@
-import pickle
-from datetime import datetime
-from functools import lru_cache
-
-import xmltodict
-from django.core.management.base import BaseCommand, CommandError
-
-from app.models import Vulnerability, Asset, Vendor, AssetType, TypeChoices, PotentialChoices, Attacker, Threat
+from django.core.management.base import BaseCommand
 from pandas import ExcelFile
+
+from app.management.commands.asset_type_mapper import asset_types_mapper
+from app.models import AssetType, AttackerSpecification, Threat
+from app.models.choices import AttackerTypeChoices, AttackerPotentialChoices
 
 
 class Command(BaseCommand):
@@ -26,21 +23,20 @@ class Command(BaseCommand):
 
         for attacker_string in data.split(';'):
             attacker_string = attacker_string.strip()
-            attacker_type = None
             attacker_potential = None
-            if attacker_string.split(' ')[0].lower() == TypeChoices.INSIDER.label.lower():
-                attacker_type = TypeChoices.INSIDER
+            if attacker_string.split(' ')[0].lower() == AttackerTypeChoices.INSIDER.label.lower():
+                attacker_type = AttackerTypeChoices.INSIDER
             else:
-                attacker_type = TypeChoices.OUTSIDER
+                attacker_type = AttackerTypeChoices.OUTSIDER
 
             if attacker_string.split(' ')[-2].lower() == 'низким':
-                attacker_potential = PotentialChoices.LOW
+                attacker_potential = AttackerPotentialChoices.LOW
             elif attacker_string.split(' ')[-2].lower() == 'средним':
-                attacker_potential = PotentialChoices.MEDIUM
+                attacker_potential = AttackerPotentialChoices.MEDIUM
             elif attacker_string.split(' ')[-2].lower() == 'высоким':
-                attacker_potential = PotentialChoices.HIGH
+                attacker_potential = AttackerPotentialChoices.HIGH
 
-            attacker, _ = Attacker.objects.get_or_create(type=attacker_type, potential=attacker_potential)
+            attacker, _ = AttackerSpecification.objects.get_or_create(type=attacker_type, potential=attacker_potential)
 
             attackers.add(attacker)
 
@@ -48,10 +44,10 @@ class Command(BaseCommand):
 
     def parse_asset_types(self, data: str):
         asset_types = set()
-        #data = data.replace(',', ';')
         for asset_type in data.split(';'):
             name = asset_type.strip()
             name = name[:1].upper()+name[1:]
+            name = asset_types_mapper[name]
             asset_type, _ = AssetType.objects.get_or_create(name=name)
             asset_types.add(asset_type)
         return asset_types

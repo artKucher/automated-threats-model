@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg',
-    'app'
+    'admin_reorder',
+    'app',
+    'users_system',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'admin_reorder.middleware.ModelAdminReorder',
 ]
 
 if DEBUG:
@@ -159,4 +162,38 @@ REST_FRAMEWORK = {
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 
-parsed_vulnerabilities = []
+ADMIN_REORDER = (
+    {'app': 'app', 'label': 'Объекты', 'models': (
+        'app.Asset',
+        'app.AssetType',
+        'app.Interface',
+        'app.Vendor'
+    )},
+    {'app': 'app', 'label': 'Угрозы', 'models': (
+        'app.Threat',
+    )},
+    {'app': 'app', 'label': 'Уязвимости', 'models': (
+        'app.Vulnerability',
+    )},
+    {'app': 'app', 'label': 'Нарушители', 'models': (
+        'app.Attacker',
+        'app.AttackerSpecification',
+        'app.Capability',
+        'app.AttackerScope',
+    )},
+    {'app': 'app', 'label': 'Негативные последствия', 'models': (
+        'app.NegativeConsequence',
+    )},
+    {'app': 'app', 'label': 'Сценарий', 'models': (
+        'app.Scenario',
+        'app.ScenarioStep',
+        'app.Tactic',
+        'app.Technique',
+    )},
+    {'app': 'app', 'label': 'Системы', 'models': (
+        'app.SystemClass',
+    )},
+    {'app': 'users_system', 'label': 'Пользовательские системы', 'models': (
+        'users_system.System',
+    )},
+)

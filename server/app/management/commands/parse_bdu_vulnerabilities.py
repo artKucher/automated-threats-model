@@ -1,10 +1,9 @@
 import pickle
 from datetime import datetime
-from functools import lru_cache
 
-import xmltodict
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
+from app.management.commands.asset_type_mapper import asset_types_mapper
 from app.models import Vulnerability, Asset, Vendor, AssetType
 
 
@@ -39,7 +38,8 @@ class Command(BaseCommand):
                 parsed_asset_type = parsed_asset['types']['type']
                 if isinstance(parsed_asset_type, list):
                     parsed_asset_type = parsed_asset_type[0]
-                asset_type, _ = AssetType.objects.get_or_create(name=parsed_asset_type)
+                asset_type_name = asset_types_mapper[parsed_asset_type]
+                asset_type, _ = AssetType.objects.get_or_create(name=asset_type_name)
 
 
                 asset, _ = Asset.objects.get_or_create(name=parsed_asset['name'],
