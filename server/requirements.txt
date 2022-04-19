@@ -8,3 +8,6 @@ gunicorn
 xmltodict
 pandas
 openpyxl
+markdown
+xhtml2pdf
+django-modeladmin-reorder
