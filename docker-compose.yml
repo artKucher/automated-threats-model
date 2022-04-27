@@ -9,8 +9,8 @@ services:
       dockerfile: Dockerfile
       args:
         buildno: 1
-    image: django_atm
-    container_name: django_atm
+    image: django
+    container_name: django
     env_file: .env
     volumes:
       - ./server:/server
@@ -23,22 +23,24 @@ services:
     ports:
       - "8443:8443"
     restart: always
+
   postgres:
     image: postgres:14-alpine
-    container_name: postgres_atm
+    container_name: postgres
     restart: always
     expose:
       - "5432"
     env_file: .env
     volumes:
       - ./pgdata:/var/lib/postgresql/data
+
   nginx:
-    container_name: nginx_atm
+    container_name: nginx
     restart: always
     build:
       context: ./nginx/
       dockerfile: Dockerfile
-    image: nginx_atm
+    image: nginx
     ports:
       - "80:80"
       - "443:443"
@@ -52,6 +54,7 @@ services:
       - postgres
       - django
       - frontend
+
   frontend:
     command: npm run build
     build:
