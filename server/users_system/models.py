@@ -1,20 +1,18 @@
 from django.db import models
 
+from app.models import ISPDNClass, GISClass, ASUTPClass, KIIClass
 from app.models.assets import Asset
 from app.models.base_models import BaseModel
 from app.models.negative_consequences import NegativeConsequence
-from app.models.systems import SystemClass
 
 
 class System(BaseModel):
-    system_class = models.ForeignKey(
-        SystemClass,
-        on_delete=models.CASCADE,
-        verbose_name='Класс системы',
-        null=True
-    )
+    ispdn_classes = models.ManyToManyField(ISPDNClass, verbose_name='Классы ИСПДн')
+    gis_classes = models.ManyToManyField(GISClass, verbose_name='Классы ГИС')
+    asutp_classes = models.ManyToManyField(ASUTPClass, verbose_name='Классы АСУТП')
+    kii_classes = models.ManyToManyField(KIIClass, verbose_name='Классы КИИ')
+
     assets = models.ManyToManyField(Asset, verbose_name='Объекты')
-    negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')
 
     class Meta:
         verbose_name = 'Система'

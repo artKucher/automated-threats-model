@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import Asset, AssetType, Vendor, Interface, AttackerSpecification, Vulnerability, Threat, \
     ThreatsImplementationMethod, NegativeConsequence, Attacker, Capability, AttackerScope, Tactic, Technique, \
-    ScenarioStep, Scenario, SystemClass
+    ScenarioStep, Scenario, ISPDNClass, GISClass, ASUTPClass, KIIClass, NegativeConsequenceGroup
 
 # Register your models here.
 
@@ -16,6 +16,7 @@ admin.site.register(Threat)
 
 admin.site.register(ThreatsImplementationMethod)
 admin.site.register(NegativeConsequence)
+admin.site.register(NegativeConsequenceGroup)
 admin.site.register(Attacker)
 admin.site.register(Capability)
 admin.site.register(AttackerScope)
@@ -23,4 +24,7 @@ admin.site.register(Tactic)
 admin.site.register(Technique)
 admin.site.register(ScenarioStep)
 admin.site.register(Scenario)
-admin.site.register(SystemClass)
+admin.site.register(ISPDNClass)
+admin.site.register(GISClass)
+admin.site.register(ASUTPClass)
+admin.site.register(KIIClass)

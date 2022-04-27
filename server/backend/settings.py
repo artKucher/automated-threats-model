@@ -183,6 +183,7 @@ ADMIN_REORDER = (
     )},
     {'app': 'app', 'label': 'Негативные последствия', 'models': (
         'app.NegativeConsequence',
+        'app.NegativeConsequenceGroup',
     )},
     {'app': 'app', 'label': 'Сценарий', 'models': (
         'app.Scenario',
@@ -191,7 +192,10 @@ ADMIN_REORDER = (
         'app.Technique',
     )},
     {'app': 'app', 'label': 'Системы', 'models': (
-        'app.SystemClass',
+        'app.ISPDNClass',
+        'app.GISClass',
+        'app.ASUTPClass',
+        'app.KIIClass',
     )},
     {'app': 'users_system', 'label': 'Пользовательские системы', 'models': (
         'users_system.System',
