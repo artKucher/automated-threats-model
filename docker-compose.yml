@@ -1,9 +1,7 @@
 version: '3'
 services:
   django:
-    command: /usr/local/bin/python manage.py migrate
-             /usr/local/bin/python manage.py collectstatic --noinput
-             /usr/local/bin/gunicorn backend.asgi:application -w 1 -b :8000 -k uvicorn.workers.UvicornWorker
+    command: /usr/local/bin/gunicorn backend.asgi:application -w 2 -b :8000 -k uvicorn.workers.UvicornWorker
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -62,8 +60,8 @@ services:
       dockerfile: Dockerfile
       args:
         buildno: 1
-    container_name: frontend_atm
-    image: frontend_atm
+    container_name: frontend
+    image: frontend
     volumes:
       - ./frontend:/app
       - /app/node_modules
