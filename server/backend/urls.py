@@ -6,11 +6,13 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 from app.urls import urlpatterns as app_urlpatterns
+from users_system.urls import urlpatterns as users_system_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 urlpatterns += app_urlpatterns
+urlpatterns += users_system_urlpatterns
 
 
 
@@ -31,10 +33,8 @@ urlpatterns += [
    path('swagger.json', schema_view.without_ui(cache_timeout=0), name='schema-json'),
    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+   path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
-
-
-
 
 if settings.DEBUG:
     import debug_toolbar

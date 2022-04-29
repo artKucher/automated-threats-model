@@ -62,4 +62,3 @@ class Command(BaseCommand):
                 print(parsed_vulnerability['identifier'])
 
         print('sdng')
-        self.stdout.write('hui')
