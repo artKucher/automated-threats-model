@@ -3,6 +3,7 @@ psycopg2-binary
 djangorestframework
 drf-yasg
 django-debug-toolbar
+django-filter
 uvicorn
 gunicorn
 xmltodict
