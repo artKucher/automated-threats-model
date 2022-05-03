@@ -12,4 +12,5 @@ class SystemSerializer(serializers.ModelSerializer):
                   'asutp_classes',
                   'kii_classes',
                   'assets',
+                  'negative_consequences',
                   'name']

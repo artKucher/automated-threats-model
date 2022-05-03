@@ -22,6 +22,10 @@ class NegativeConsequence(BaseModel):
     number = models.SmallIntegerField('Номер')
     description = models.TextField('Описание', max_length=511, null=True)
 
+    @property
+    def full_name(self):
+        return str(self)
+
     class Meta:
         verbose_name = 'Негативное последствие'
         verbose_name_plural = 'Негативные последствия'

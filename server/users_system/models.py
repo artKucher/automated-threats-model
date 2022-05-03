@@ -13,6 +13,7 @@ class System(BaseModel):
     kii_classes = models.ManyToManyField(KIIClass, verbose_name='Классы КИИ')
 
     assets = models.ManyToManyField(Asset, verbose_name='Объекты')
+    negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')
 
     class Meta:
         verbose_name = 'Система'

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from app.models import AssetType, Interface, Asset, ISPDNClass, GISClass, ASUTPClass, KIIClass, KIISpecificationChoices, \
-    ISPDNSpecificationChoices
+    ISPDNSpecificationChoices, NegativeConsequence
 
 
 class AssetTypeSerializer(serializers.ModelSerializer):
@@ -57,3 +57,11 @@ class KIIClassSerializer(serializers.ModelSerializer):
         fields = ['id',
                   'specification',
                   'significance_attribute']
+
+
+class NegativeConsequenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NegativeConsequence
+        fields = ['id',
+                  'description',
+                  'full_name']

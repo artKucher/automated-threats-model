@@ -1,9 +1,26 @@
 import django_filters.rest_framework
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
-from .models import AssetType, Asset, ISPDNClass, GISClass, ASUTPClass, KIIClass
+from .models import AssetType, Asset, ISPDNClass, GISClass, ASUTPClass, KIIClass, negative_consequences, \
+    NegativeConsequence
 from .serializers import AssetTypeSerializer, AssetSerializer, ISPDNClassSerializer, GISClassSerializer, \
-    ASUTPClassSerializer, KIIClassSerializer
+    ASUTPClassSerializer, KIIClassSerializer, NegativeConsequenceSerializer
+
+
+class NegativeConsequenceMixin:
+    @action(detail=False)
+    def get_negative_consequences(self, request):
+        ids_list = self.filter_queryset(self.queryset.negative_consequences_ids())
+        negative_consequences = NegativeConsequence.objects.filter(id__in=ids_list)
+        serializer = NegativeConsequenceSerializer(negative_consequences, many=True)
+        return Response(
+            {
+                'count':negative_consequences.count() ,
+                'results': serializer.data
+            }
+        )
 
 
 class AssetTypeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -18,28 +35,28 @@ class AssetsViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_fields = ['asset_type',]
 
 
-class ISPDNClassesViewSet(viewsets.ReadOnlyModelViewSet):
+class ISPDNClassesViewSet(NegativeConsequenceMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = ISPDNClassSerializer
-    queryset = ISPDNClass.objects.all()
+    queryset = ISPDNClass.objects
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = {'type': ['in'], 'specification': ['in'], 'protection_level': ['exact']}
 
 
-class GISClassesViewSet(viewsets.ReadOnlyModelViewSet):
+class GISClassesViewSet(NegativeConsequenceMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = GISClassSerializer
     queryset = GISClass.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = {'size': ['exact'], 'specification': ['in'], 'protection_class': ['exact']}
 
 
-class ASUTPClassesViewSet(viewsets.ReadOnlyModelViewSet):
+class ASUTPClassesViewSet(NegativeConsequenceMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = ASUTPClassSerializer
     queryset = ASUTPClass.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = {'specification': ['in'], 'protection_class': ['exact']}
 
 
-class KIIClassesViewSet(viewsets.ReadOnlyModelViewSet):
+class KIIClassesViewSet(NegativeConsequenceMixin, viewsets.ReadOnlyModelViewSet):
     serializer_class = KIIClassSerializer
     queryset = KIIClass.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]

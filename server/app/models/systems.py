@@ -6,9 +6,22 @@ from app.models.choices import ISPDNTypeChoices, ISPDNSpecificationChoices, GISS
     SignificanceAttributeChoices
 
 
-class BaseSystemClass(models.Model):
-    negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')
+class SystemsClassManager(models.Manager):
+    def negative_consequences_ids(self):
+        return self.get_queryset().select_related(
+            'negative_consequences'
+        ).values_list(
+            'negative_consequences__id',
+            flat=True
+        )
 
+
+class BaseSystemClass(models.Model):
+    objects = SystemsClassManager()
+    negative_consequences = models.ManyToManyField(
+        NegativeConsequence,
+        verbose_name='Негативные последствия'
+    )
     class Meta:
         abstract = True
 
