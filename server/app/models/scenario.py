@@ -18,21 +18,32 @@ class Scenario(BaseModel):
 
 
 class Tactic(BaseModel):
+    number = models.SmallIntegerField('Номер')
+
     class Meta:
         verbose_name = 'Тактика'
         verbose_name_plural = 'Тактики'
 
+    def __str__(self):
+        return f'Т{self.number} {self.name}'
+
 
 class Technique(BaseModel):
+    number = models.SmallIntegerField('Номер')
+
     tactic = models.ForeignKey(
         Tactic,
         on_delete=models.CASCADE,
         verbose_name='Тактика',
         null=True
     )
+
     class Meta:
         verbose_name = 'Техника'
         verbose_name_plural = 'Техники'
+
+    def __str__(self):
+        return f'Т{self.tactic.number}.{self.number} {self.name}'
 
 
 class ScenarioStep(BaseModel):
