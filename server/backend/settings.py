@@ -150,6 +150,7 @@ ADMIN_REORDER = (
         'app.ScenarioStep',
         'app.Tactic',
         'app.Technique',
+        'app.ThreatsImplementationMethod',
     )},
     {'app': 'app', 'label': 'Системы', 'models': (
         'app.ISPDNClass',
