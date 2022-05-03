@@ -11,7 +11,7 @@ from .serializers import AssetTypeSerializer, AssetSerializer, ISPDNClassSeriali
 
 class NegativeConsequenceMixin:
     @action(detail=False)
-    def get_negative_consequences(self, request):
+    def negative_consequences(self, request):
         ids_list = self.filter_queryset(self.queryset.negative_consequences_ids())
         negative_consequences = NegativeConsequence.objects.filter(id__in=ids_list)
         serializer = NegativeConsequenceSerializer(negative_consequences, many=True)
