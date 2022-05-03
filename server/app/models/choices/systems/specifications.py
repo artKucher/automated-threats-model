@@ -17,6 +17,7 @@ class BaseSpecificationChoices(models.TextChoices):
     )
     IMPACT_ON_PUBLIC_PERCEPTION = 'IMPACT_ON_PUBLIC_PERCEPTION', 'Влияние на общественное сознание'
     GOVERNMENT = 'GOVERNMENT', 'Государственная'
+    BASIC = 'BASIC', 'Базовая'
 
 
 @extend_choices(BaseSpecificationChoices)
