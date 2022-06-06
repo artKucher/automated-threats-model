@@ -75,7 +75,3 @@ class Command(BaseCommand):
             except Exception as e:
                 print(e)
                 print(parsed_threat)
-
-
-        print('sdng')
-        self.stdout.write('hui')
