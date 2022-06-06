@@ -1,0 +1,32 @@
+from dataclasses import dataclass
+from typing import List, Optional
+from app.models import Asset, NegativeConsequence, Attacker, ThreatsImplementationMethod, Threat, Technique, Tactic
+
+
+@dataclass
+class ReportScenarios:
+    tactic: Tactic
+    techniques: List[Technique]
+
+
+@dataclass
+class ReportThreatImplementation:
+    implementation: ThreatsImplementationMethod
+    scenario: List[ReportScenarios]
+    assets: Optional[List[Asset]]
+
+
+@dataclass
+class ReportThreat:
+    threat: Threat
+    implementations: List[ReportThreatImplementation]
+
+
+@dataclass
+class Report:
+    negative_consequences: List[NegativeConsequence]
+    assets: List[Asset]
+    attackers: List[Attacker]
+    threats: List[ReportThreat]
+
+
