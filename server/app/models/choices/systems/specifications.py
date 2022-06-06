@@ -6,6 +6,7 @@ GENERAL_VALUES = {
 
 }
 
+
 class BaseSpecificationChoices(models.TextChoices):
     FINANCIAL = 'FINANCIAL', 'Финансовая'
     HAS_PRIVATE_WEB_RESOURCES = 'HAS_PRIVATE_WEB_RESOURCES', 'Имеет частные WEB-ресурсы'
@@ -22,11 +23,12 @@ class BaseSpecificationChoices(models.TextChoices):
 
 @extend_choices(BaseSpecificationChoices)
 class ISPDNSpecificationChoices(models.TextChoices):
-    GOVERNMENT = 'GOVERNMENT', 'Государственная'
+    ...
 
 
 @extend_choices(BaseSpecificationChoices)
-class GISSpecificationChoices(models.TextChoices): ...
+class GISSpecificationChoices(models.TextChoices):
+    ...
 
 
 @extend_choices(BaseSpecificationChoices)
@@ -35,4 +37,5 @@ class ASUTPSpecificationChoices(models.TextChoices):
 
 
 @extend_choices(BaseSpecificationChoices)
-class KIISpecificationChoices(models.TextChoices): ...
+class KIISpecificationChoices(models.TextChoices):
+    ...

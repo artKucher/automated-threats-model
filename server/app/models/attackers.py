@@ -29,7 +29,7 @@ class AttackerSpecification(models.Model):
 
 
 class Capability(BaseModel):
-    level = models.CharField('Уровень', max_length=2, choices=CapabilityLevelChoices.choices, null=True)
+    level = models.IntegerField('Уровень', choices=CapabilityLevelChoices.choices, null=True)
     description = models.TextField('Описание', max_length=2048, null=True)
 
     class Meta:
@@ -39,6 +39,7 @@ class Capability(BaseModel):
 
 class AttackerScope(BaseModel):
     negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')
+
     class Meta:
         verbose_name = 'Цель нарушителя'
         verbose_name_plural = 'Цели нарушителей'
@@ -47,8 +48,13 @@ class AttackerScope(BaseModel):
 class Attacker(BaseModel):
     attacker_specification = models.ManyToManyField(AttackerSpecification, verbose_name='Спецификации нарушителей')
     scopes = models.ManyToManyField(AttackerScope, verbose_name='Цели')
-    capability = models.ForeignKey(Capability, on_delete=models.CASCADE, verbose_name='Возможности',
-                                   null=True)
+    capability = models.ForeignKey(
+        Capability,
+        on_delete=models.CASCADE,
+        verbose_name='Возможности',
+        null=True,
+        related_name='attackers'
+    )
 
     class Meta:
         verbose_name = 'Нарушитель'

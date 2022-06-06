@@ -11,7 +11,6 @@ class AssetType(BaseModel):
 
 
 class Vendor(BaseModel):
-    pass
 
     class Meta:
         verbose_name = 'Вендор'
@@ -19,7 +18,13 @@ class Vendor(BaseModel):
 
 
 class Asset(BaseModel):
-    asset_type = models.ForeignKey(AssetType, on_delete=models.CASCADE, verbose_name='Тип объекта', null=True)
+    asset_type = models.ForeignKey(
+        AssetType,
+        on_delete=models.CASCADE,
+        verbose_name='Тип объекта',
+        null=True,
+        related_name='assets',
+    )
     vendor = models.ForeignKey(Vendor, on_delete=models.CASCADE, verbose_name='Вендор', null=True)
 
     class Meta:

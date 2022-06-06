@@ -7,10 +7,10 @@ from app.models.negative_consequences import NegativeConsequence
 
 
 class System(BaseModel):
-    ispdn_classes = models.ManyToManyField(ISPDNClass, verbose_name='Классы ИСПДн')
-    gis_classes = models.ManyToManyField(GISClass, verbose_name='Классы ГИС')
-    asutp_classes = models.ManyToManyField(ASUTPClass, verbose_name='Классы АСУТП')
-    kii_classes = models.ManyToManyField(KIIClass, verbose_name='Классы КИИ')
+    ispdn_classes = models.ManyToManyField(ISPDNClass, verbose_name='Классы ИСПДн', blank=True)
+    gis_classes = models.ManyToManyField(GISClass, verbose_name='Классы ГИС', blank=True)
+    asutp_classes = models.ManyToManyField(ASUTPClass, verbose_name='Классы АСУТП', blank=True)
+    kii_classes = models.ManyToManyField(KIIClass, verbose_name='Классы КИИ', blank=True)
 
     assets = models.ManyToManyField(Asset, verbose_name='Объекты')
     negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')

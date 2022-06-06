@@ -1,5 +1,6 @@
 from django.db import models
 
+from app.models import Capability, Interface
 from app.models.base_models import BaseModel
 from app.models.threats import ThreatsImplementationMethod
 
@@ -35,6 +36,20 @@ class Technique(BaseModel):
         Tactic,
         on_delete=models.CASCADE,
         verbose_name='Тактика',
+        null=True
+    )
+
+    capability = models.ForeignKey(
+        Capability,
+        on_delete=models.CASCADE,
+        verbose_name='Возможность нарушителя',
+        null=True
+    )
+
+    interface = models.ForeignKey(
+        Interface,
+        on_delete=models.CASCADE,
+        verbose_name='Интерфейс',
         null=True
     )
 

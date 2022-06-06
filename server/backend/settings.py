@@ -131,6 +131,8 @@ ADMIN_REORDER = (
     )},
     {'app': 'app', 'label': 'Угрозы', 'models': (
         'app.Threat',
+        'app.ThreatsImplementationMethod',
+        'app.ThreatsImplementationMethodGroup',
     )},
     {'app': 'app', 'label': 'Уязвимости', 'models': (
         'app.Vulnerability',
@@ -150,7 +152,6 @@ ADMIN_REORDER = (
         'app.ScenarioStep',
         'app.Tactic',
         'app.Technique',
-        'app.ThreatsImplementationMethod',
     )},
     {'app': 'app', 'label': 'Системы', 'models': (
         'app.ISPDNClass',
