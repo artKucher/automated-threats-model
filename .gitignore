@@ -11,3 +11,4 @@ server/server.log
 server/mysite.log
 frontend/node_modules/
 frontend/dist/
+/pgdata.zip
