@@ -17,6 +17,7 @@ class ReportBuilder:
         attackers = self.get_actual_attackers()
         threats = self.get_actual_threats(assets, attackers)
         return Report(
+            system=self.system,
             negative_consequences=negative_consequences,
             assets=assets,
             attackers=attackers,

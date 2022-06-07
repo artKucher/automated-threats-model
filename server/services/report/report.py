@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Optional
 from app.models import Asset, NegativeConsequence, Attacker, ThreatsImplementationMethod, Threat, Technique, Tactic
+from users_system.models import System as UserSystem
 
 
 @dataclass
@@ -24,6 +25,7 @@ class ReportThreat:
 
 @dataclass
 class Report:
+    system: UserSystem
     negative_consequences: List[NegativeConsequence]
     assets: List[Asset]
     attackers: List[Attacker]

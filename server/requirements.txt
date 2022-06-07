@@ -12,3 +12,4 @@ openpyxl
 markdown
 xhtml2pdf
 django-modeladmin-reorder
+odfpy
