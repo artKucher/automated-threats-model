@@ -10,6 +10,13 @@ class Migration(migrations.Migration):
         ('app', '0005_tactic_number_technique_number'),
     ]
 
+    def createThreatsImplementationMethodGroup(apps, schema_editor):
+        ThreatsImplementationMethodGroup = apps.get_model("app", "ThreatsImplementationMethodGroup")
+        db_alias = schema_editor.connection.alias
+        ThreatsImplementationMethodGroup.objects.using(db_alias).bulk_create([
+            ThreatsImplementationMethodGroup(name="Группа1", number=1),
+        ])
+
     operations = [
         migrations.CreateModel(
             name='ThreatsImplementationMethodGroup',
@@ -23,6 +30,7 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Группы способов реализации угроз',
             },
         ),
+        migrations.RunPython(createThreatsImplementationMethodGroup, migrations.RunPython.noop),
         migrations.RemoveField(
             model_name='threatsimplementationmethod',
             name='description',
