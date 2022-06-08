@@ -9,7 +9,7 @@ services:
         buildno: 1
     image: django
     container_name: django
-    env_file: .env
+    env_file: server/.env
     volumes:
       - ./server:/server
       - ./logs/gunicorn:/var/log/gunicorn
@@ -28,7 +28,7 @@ services:
     restart: always
     expose:
       - "5432"
-    env_file: .env
+    env_file: server/.env
     volumes:
       - ./pgdata:/var/lib/postgresql/data
 

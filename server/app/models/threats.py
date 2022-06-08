@@ -47,7 +47,10 @@ class ThreatsImplementationMethod(BaseModel):
                                         on_delete=models.CASCADE,
                                         verbose_name='Используемый интерфейс',
                                         null=True)
-    threats = models.ManyToManyField(Threat, verbose_name='Угрозы')
+    threats = models.ManyToManyField(
+        Threat,
+        verbose_name='Угрозы',
+        related_name='implementation_methods')
 
 
     class Meta:

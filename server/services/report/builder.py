@@ -25,10 +25,14 @@ class ReportBuilder:
         )
 
     def get_actual_threats(self, assets, attackers) -> List[ReportThreat]:
-        threats = Threat.objects.filter(asset_types__assets__in=assets).all()
+        attackers_capabilities = Capability.objects.filter(attackers__in=attackers).distinct().all()
+        threats = Threat.objects.filter(
+            asset_types__assets__in=assets,
+            implementation_methods__attacker_capability__in=attackers_capabilities,
+        ).all()[:30]
         report_threats = []
         for threat in threats:
-            implementation_method = self.get_implementation_methods(attackers, threat, assets)
+            implementation_method = self.get_implementation_methods(attackers_capabilities, threat, assets)
             if not implementation_method:
                 continue
             report_threats.append(
@@ -42,14 +46,13 @@ class ReportBuilder:
 
     def get_implementation_methods(
             self,
-            attackers: List[Attacker],
+            attackers_capabilities: List[Capability],
             threat: Threat,
             assets: List[Asset]) -> List[ReportThreatImplementation]:
 
-        attackers_capabilities = Capability.objects.filter(attackers__in=attackers).all()
         implementation_methods = ThreatsImplementationMethod.objects.filter(
             attacker_capability__in=attackers_capabilities,
-            threats=threat
+            threats__id__contains=threat.id
         ).all()
         assets_ids = [asset.id for asset in assets]
         threat_assets = Asset.objects.filter(id__in=assets_ids, asset_type__in=threat.asset_types.all())
@@ -94,5 +97,5 @@ class ReportBuilder:
     def get_actual_attackers(self) -> List[Attacker]:
         attackers = Attacker.objects.filter(
             scopes__negative_consequences__in=self.system.negative_consequences.all()
-        ).all()
+        ).distinct().all()
         return attackers
