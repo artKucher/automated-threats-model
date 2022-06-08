@@ -32,3 +32,6 @@ class NegativeConsequence(BaseModel):
 
     def __str__(self):
         return f'У{self.group.number}.{self.number} {self.name}'
+
+    def get_number(self):
+        return f'У{self.group.number}.{self.number}'

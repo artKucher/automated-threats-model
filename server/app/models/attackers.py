@@ -52,6 +52,12 @@ class AttackerScope(models.Model):
         verbose_name = 'Цель нарушителя'
         verbose_name_plural = 'Цели нарушителей'
 
+    def __str__(self):
+        negative_consequences_numbers = ', '.join([
+            negative_consequence.get_number() for negative_consequence in self.negative_consequences.all()
+        ])
+        return f'{self.scope} {negative_consequences_numbers}'
+
 
 class Attacker(BaseModel):
     attacker_specification = models.ManyToManyField(AttackerSpecification, verbose_name='Спецификации нарушителей')
