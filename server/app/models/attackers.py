@@ -37,7 +37,15 @@ class Capability(BaseModel):
         verbose_name_plural = 'Возможности нарушителей'
 
 
-class AttackerScope(BaseModel):
+class Scope(BaseModel):
+
+    class Meta:
+        verbose_name = 'Возможная цель нарушителя'
+        verbose_name_plural = 'Возможные цели нарушителей'
+
+
+class AttackerScope(models.Model):
+    scope = models.ForeignKey(Scope, verbose_name='Цель', on_delete=models.CASCADE)
     negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')
 
     class Meta:

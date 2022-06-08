@@ -1,27 +1,30 @@
 from django.contrib import admin
 
-from .models import (Asset,
-                     AssetType,
-                     Vendor,
-                     Interface,
-                     AttackerSpecification,
-                     Vulnerability,
-                     Threat,
-                     ThreatsImplementationMethod,
-                     NegativeConsequence,
-                     Attacker,
-                     Capability,
-                     AttackerScope,
-                     Tactic,
-                     Technique,
-                     ScenarioStep,
-                     Scenario,
-                     ISPDNClass,
-                     GISClass,
-                     ASUTPClass,
-                     KIIClass,
-                     NegativeConsequenceGroup,
-                     ThreatsImplementationMethodGroup)
+from .models import (
+    Asset,
+    AssetType,
+    Vendor,
+    Interface,
+    AttackerSpecification,
+    Vulnerability,
+    Threat,
+    ThreatsImplementationMethod,
+    NegativeConsequence,
+    Attacker,
+    Capability,
+    AttackerScope,
+    Tactic,
+    Technique,
+    ScenarioStep,
+    Scenario,
+    ISPDNClass,
+    GISClass,
+    ASUTPClass,
+    KIIClass,
+    NegativeConsequenceGroup,
+    ThreatsImplementationMethodGroup,
+    Scope
+)
 
 # Register your models here.
 
@@ -39,6 +42,7 @@ admin.site.register(NegativeConsequence)
 admin.site.register(NegativeConsequenceGroup)
 admin.site.register(Attacker)
 admin.site.register(Capability)
+admin.site.register(Scope)
 admin.site.register(AttackerScope)
 admin.site.register(Tactic)
 admin.site.register(Technique)

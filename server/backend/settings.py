@@ -162,6 +162,7 @@ ADMIN_REORDER = (
         'app.Attacker',
         'app.AttackerSpecification',
         'app.Capability',
+        'app.Scope',
         'app.AttackerScope',
     )},
     {'app': 'app', 'label': 'Негативные последствия', 'models': (
