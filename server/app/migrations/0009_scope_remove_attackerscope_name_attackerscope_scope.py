@@ -10,6 +10,13 @@ class Migration(migrations.Migration):
         ('app', '0008_remove_interface_asset_type_assettype_interfaces_and_more'),
     ]
 
+    def create_scope(apps, schema_editor):
+        Scope = apps.get_model("app", "Scope")
+        db_alias = schema_editor.connection.alias
+        Scope.objects.using(db_alias).bulk_create([
+            Scope(name="FirstScope"),
+        ])
+
     operations = [
         migrations.CreateModel(
             name='Scope',
@@ -22,6 +29,7 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Возможные цели нарушителей',
             },
         ),
+        migrations.RunPython(create_scope, migrations.RunPython.noop),
         migrations.RemoveField(
             model_name='attackerscope',
             name='name',
