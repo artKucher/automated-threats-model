@@ -14,39 +14,39 @@ set-container:
 	$(eval $(call set-default-container))
 
 build: set-container
-	docker-compose -f docker-compose.yml -f docker-compose-dev.yml build ${c}
+	docker compose -f docker-compose.yml -f docker-compose-dev.yml build ${c}
 
 prod:
-	docker-compose up -d --force-recreate ${c}
+	docker compose up -d --force-recreate ${c}
 
 up:
-	docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate ${c}
+	docker compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate ${c}
 
 restart: set-container
-	docker-compose restart ${c}
+	docker compose restart ${c}
 
 stop: set-container
-	docker-compose stop ${c}
+	docker compose stop ${c}
 
 down:
-	docker-compose down
+	docker compose down
 
 exec: set-container
-	docker-compose exec ${c} /bin/bash
+	docker compose exec ${c} /bin/bash
 
 logs: set-container
-	docker-compose logs -f ${c}
+	docker compose logs -f ${c}
 
 makemigrations:
-	docker-compose exec server ./manage.py makemigrations
+	docker compose exec server ./manage.py makemigrations
 
 migrate:
-	docker-compose exec server ./manage.py migrate
+	docker compose exec server ./manage.py migrate
 
 collectstatic:
-	docker-compose exec server ./manage.py collectstatic --noinput
+	docker compose exec server ./manage.py collectstatic --noinput
 
 build-static:
-	docker-compose up --force-recreate frontend
+	docker compose up --force-recreate frontend
 
 frontend: build-static collectstatic

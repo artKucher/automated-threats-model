@@ -8,7 +8,7 @@ services:
       args:
         buildno: 1
     image: django
-    container_name: django
+    container_name: django_atm
     env_file: server/.env
     volumes:
       - ./server:/server
@@ -24,7 +24,7 @@ services:
 
   postgres:
     image: postgres:14-alpine
-    container_name: postgres
+    container_name: postgres_atm
     restart: always
     expose:
       - "5432"
@@ -33,7 +33,7 @@ services:
       - ./pgdata:/var/lib/postgresql/data
 
   nginx:
-    container_name: nginx
+    container_name: nginx_atm
     restart: always
     build:
       context: ./nginx/
