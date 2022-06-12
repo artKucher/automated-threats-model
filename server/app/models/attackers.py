@@ -44,24 +44,8 @@ class Scope(BaseModel):
         verbose_name_plural = 'Возможные цели нарушителей'
 
 
-class AttackerScope(models.Model):
-    scope = models.ForeignKey(Scope, verbose_name='Цель', on_delete=models.CASCADE)
-    negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')
-
-    class Meta:
-        verbose_name = 'Цель нарушителя'
-        verbose_name_plural = 'Цели нарушителей'
-
-    def __str__(self):
-        negative_consequences_numbers = ', '.join([
-            negative_consequence.get_number() for negative_consequence in self.negative_consequences.all()
-        ])
-        return f'{self.scope} {negative_consequences_numbers}'
-
-
 class Attacker(BaseModel):
     attacker_specification = models.ManyToManyField(AttackerSpecification, verbose_name='Спецификации нарушителей')
-    scopes = models.ManyToManyField(AttackerScope, verbose_name='Цели')
     capability = models.ForeignKey(
         Capability,
         on_delete=models.CASCADE,
@@ -73,3 +57,19 @@ class Attacker(BaseModel):
     class Meta:
         verbose_name = 'Нарушитель'
         verbose_name_plural = 'Нарушители'
+
+
+class AttackerScope(models.Model):
+    scope = models.ForeignKey(Scope, verbose_name='Цель', on_delete=models.CASCADE)
+    negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')
+    attacker = models.ForeignKey(Attacker, verbose_name='Нарушитель', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Цель нарушителя'
+        verbose_name_plural = 'Цели нарушителей'
+
+    def __str__(self):
+        negative_consequences_numbers = ', '.join([
+            negative_consequence.get_number() for negative_consequence in self.negative_consequences.all()
+        ])
+        return f'{self.scope} {negative_consequences_numbers}'
