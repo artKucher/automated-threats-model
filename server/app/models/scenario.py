@@ -30,6 +30,7 @@ class Tactic(BaseModel):
 
 
 class Technique(BaseModel):
+    name = models.TextField('Название', max_length=1024)
     number = models.SmallIntegerField('Номер')
 
     tactic = models.ForeignKey(
