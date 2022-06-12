@@ -17,13 +17,12 @@ class BaseSpecificationChoices(models.TextChoices):
         'Обрабатывает специальные или биометрические данные госслужащих'
     )
     IMPACT_ON_PUBLIC_PERCEPTION = 'IMPACT_ON_PUBLIC_PERCEPTION', 'Влияние на общественное сознание'
-    GOVERNMENT = 'GOVERNMENT', 'Государственная'
     BASIC = 'BASIC', 'Базовая'
 
 
 @extend_choices(BaseSpecificationChoices)
 class ISPDNSpecificationChoices(models.TextChoices):
-    ...
+    GOVERNMENT = 'GOVERNMENT', 'Государственная'
 
 
 @extend_choices(BaseSpecificationChoices)
@@ -33,9 +32,13 @@ class GISSpecificationChoices(models.TextChoices):
 
 @extend_choices(BaseSpecificationChoices)
 class ASUTPSpecificationChoices(models.TextChoices):
+    GOVERNMENT = 'GOVERNMENT', 'Государственная'
     MANUFACTURE = 'MANUFACTURE', 'Производство'
 
 
 @extend_choices(BaseSpecificationChoices)
 class KIISpecificationChoices(models.TextChoices):
-    ...
+    GOVERNMENT = 'GOVERNMENT', 'Государственная'
+    TRANSPORTATION = 'TRANSPORTATION', 'Транспорт'
+    COMMUNICATION = 'COMMUNICATION', 'Связь'
+    INDUSTRY = 'INDUSTRY', 'Промышленность'

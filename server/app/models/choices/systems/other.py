@@ -28,6 +28,7 @@ class ProtectionClassChoices(models.TextChoices):
 
 
 class SignificanceAttributeChoices(models.TextChoices):
+    INSIGNIFICANT = 'INSIGNIFICANT', 'Незначимый'
     KZ1 = 'KZ1', 'KЗ1'
     KZ2 = 'KZ2', 'KЗ2'
     KZ3 = 'KZ3', 'KЗ3'

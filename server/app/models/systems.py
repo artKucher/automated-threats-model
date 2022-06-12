@@ -115,7 +115,7 @@ class KIIClass(BaseSystemClass):
 
     significance_attribute = models.CharField(
         'Критерий значимости',
-        max_length=3,
+        max_length=13,
         choices=SignificanceAttributeChoices.choices,
         default=SignificanceAttributeChoices.KZ1
     )
