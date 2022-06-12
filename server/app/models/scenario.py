@@ -50,7 +50,8 @@ class Technique(BaseModel):
         Interface,
         on_delete=models.CASCADE,
         verbose_name='Интерфейс',
-        null=True
+        null=True,
+        blank=True
     )
 
     class Meta:
