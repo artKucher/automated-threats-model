@@ -37,7 +37,8 @@ class Technique(BaseModel):
         Tactic,
         on_delete=models.CASCADE,
         verbose_name='Тактика',
-        null=True
+        null=True,
+        related_name='techniques'
     )
 
     capability = models.ForeignKey(

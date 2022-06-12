@@ -62,7 +62,12 @@ class Attacker(BaseModel):
 class AttackerScope(models.Model):
     scope = models.ForeignKey(Scope, verbose_name='Цель', on_delete=models.CASCADE)
     negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')
-    attacker = models.ForeignKey(Attacker, verbose_name='Нарушитель', on_delete=models.CASCADE)
+    attacker = models.ForeignKey(
+        Attacker,
+        verbose_name='Нарушитель',
+        on_delete=models.CASCADE,
+        related_name='attacker_scopes',
+    )
 
     class Meta:
         verbose_name = 'Цель нарушителя'

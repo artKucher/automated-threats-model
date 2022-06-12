@@ -11,7 +11,11 @@ class Interface(BaseModel):
 
 class AssetType(BaseModel):
     name = models.CharField('Название', max_length=511)
-    interfaces = models.ManyToManyField(Interface, verbose_name='Интерфейсы')
+    interfaces = models.ManyToManyField(
+        Interface,
+        verbose_name='Интерфейсы',
+        related_name='asset_type',
+    )
 
     class Meta:
         verbose_name = 'Тип объекта'

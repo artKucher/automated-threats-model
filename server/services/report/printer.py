@@ -50,14 +50,19 @@ class ReportPrinter:
         for threat in self.report.threats:
             threat_name = H(outlinelevel=1, stylename=self.h2style, text=f"{threat.threat}")
             self.document.text.addElement(threat_name)
+            self.document.text.addElement(P(text='Способы реализации:'))
             for implementation in threat.implementations:
                 implementation_name = P(text=implementation.implementation)
                 assets_list = self.generate_numbered_list(implementation.assets)
                 self.document.text.addElement(implementation_name)
+                self.document.text.addElement(
+                    P(text='Объекты через которые можно использовать данный способ реализации')
+                )
                 self.document.text.addElement(assets_list)
                 for scenario_step in implementation.scenario:
                     tactic = P(text=f'{scenario_step.tactic}')
-                    techniques = P(text=', '.join(scenario_step.techniques))
+                    techniques_list = [f'T{scenario_step.tactic.number}.{technique_number}' for technique_number in scenario_step.techniques]
+                    techniques = P(text=', '.join(techniques_list))
                     self.document.text.addElement(tactic)
                     self.document.text.addElement(techniques)
 

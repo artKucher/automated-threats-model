@@ -19,6 +19,9 @@ class Threat(BaseModel):
         verbose_name = 'Угроза'
         verbose_name_plural = 'Угрозы'
 
+    def __str__(self):
+        return f'УБИ{self.bdu_id}. {self.name}'
+
 
 class ThreatsImplementationMethodGroup(BaseModel):
     number = models.SmallIntegerField('Номер группы')

@@ -1,7 +1,7 @@
 from typing import List
-
+from django.contrib.postgres.aggregates import ArrayAgg
 from app.models import Attacker, ThreatsImplementationMethod, Capability, Threat, AssetType, Tactic, Technique, Asset, \
-    Interface
+    Interface, NegativeConsequence
 from services.report.report import Report, ReportThreat, ReportThreatImplementation, ReportScenarios
 from users_system.models import System as UserSystem
 
@@ -12,9 +12,9 @@ class ReportBuilder:
         self.system = user_system
 
     def build(self) -> Report:
-        negative_consequences = self.system.negative_consequences.all()
+        negative_consequences = self.system.negative_consequences.select_related('group').all()
         assets = self.system.assets.all()
-        attackers = self.get_actual_attackers()
+        attackers = self.get_actual_attackers(negative_consequences)
         threats = self.get_actual_threats(assets, attackers)
         return Report(
             system=self.system,
@@ -26,10 +26,10 @@ class ReportBuilder:
 
     def get_actual_threats(self, assets, attackers) -> List[ReportThreat]:
         attackers_capabilities = Capability.objects.filter(attackers__in=attackers).distinct().all()
-        threats = Threat.objects.filter(
+        threats = Threat.objects.prefetch_related('asset_types__assets').filter(
             asset_types__assets__in=assets,
             implementation_methods__attacker_capability__in=attackers_capabilities,
-        ).all()[:30]
+        ).distinct().all()
         report_threats = []
         for threat in threats:
             implementation_method = self.get_implementation_methods(attackers_capabilities, threat, assets)
@@ -50,15 +50,18 @@ class ReportBuilder:
             threat: Threat,
             assets: List[Asset]) -> List[ReportThreatImplementation]:
 
-        implementation_methods = ThreatsImplementationMethod.objects.filter(
+        implementation_methods = ThreatsImplementationMethod.objects.select_related('group').filter(
             attacker_capability__in=attackers_capabilities,
             threats__id__contains=threat.id
-        ).all()
+        ).distinct().all()
         assets_ids = [asset.id for asset in assets]
         threat_assets = Asset.objects.filter(id__in=assets_ids, asset_type__in=threat.asset_types.all())
+        interfaces = Interface.objects.filter(
+            asset_type__assets__in=threat_assets
+        )
         results = []
         for implementation_method in implementation_methods:
-            scenario = self.get_scenarios(implementation_method, threat_assets)
+            scenario = self.get_scenarios(implementation_method, interfaces)
             if not scenario:
                 continue
             results.append(
@@ -72,30 +75,32 @@ class ReportBuilder:
 
     def get_scenarios(self,
                       implementation_method: ThreatsImplementationMethod,
-                      assets: List[Asset]) -> List[ReportScenarios]:
-        tactics = Tactic.objects.order_by('number').all()
-        results = []
-        interfaces = Interface.objects.filter(
-            asset_type__assets__in=assets
+                      interfaces: List[Interface]) -> List[ReportScenarios]:
+        attacker_capability = implementation_method.attacker_capability
+
+        tactics = Tactic.objects.filter(
+            techniques__capability=attacker_capability,
+            techniques__interface__in=interfaces,
+        ).order_by(
+            'number'
+        ).annotate(
+            techniques_list=ArrayAgg('techniques__number')
         )
+
+        results = []
         for tactic in tactics:
-            techniques = Technique.objects.filter(
-                tactic=tactic,
-                capability=implementation_method.attacker_capability,
-                interface__in=interfaces,
-            )
-            if not techniques:
+            if not tactic.techniques_list:
                 continue
             results.append(
                 ReportScenarios(
                     tactic=tactic,
-                    techniques=techniques,
+                    techniques=tactic.techniques_list,
                 )
             )
         return results
 
-    def get_actual_attackers(self) -> List[Attacker]:
+    def get_actual_attackers(self, negative_consequences: List[NegativeConsequence]) -> List[Attacker]:
         attackers = Attacker.objects.filter(
-            scopes__negative_consequences__in=self.system.negative_consequences.all()
+            attacker_scopes__negative_consequences__in=negative_consequences
         ).distinct().all()
         return attackers
