@@ -13,13 +13,10 @@ services:
     volumes:
       - ./server:/server
       - ./logs/gunicorn:/var/log/gunicorn
-      - ./frontend/dist:/app/app/static/dist
     expose:
       - "8000"
     depends_on:
       - postgres
-    ports:
-      - "8443:8443"
     restart: always
 
   postgres:
@@ -41,20 +38,19 @@ services:
     image: nginx
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - ./logs/nginx:/var/log/nginx
       - ./nginx/conf:/etc/nginx/conf
       - ./nginx/sites-enabled:/etc/nginx/conf.d
       - ./nginx/certs:/etc/nginx/certs
       - ./server:/app
+      - ./frontend/dist:/dist
     depends_on:
       - postgres
       - django
       - frontend
 
   frontend:
-    command: npm run build
     build:
       context: ./frontend
       dockerfile: Dockerfile
