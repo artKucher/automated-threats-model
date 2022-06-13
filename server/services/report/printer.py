@@ -55,16 +55,16 @@ class ReportPrinter:
                 implementation_name = P(text=implementation.implementation)
                 self.document.text.addElement(implementation_name)
                 capability_text = (
-                    f'Требуемый уровень возможностей нарушителя '
-                    f'не ниже {implementation.attacker_capability}'
+                    f'Требуемый уровень возможностей нарушителя: '
+                    f'{implementation.attacker_capability}'
                 )
-                attacker_capability = P(text=capability_text)
-                self.document.text.addElement(attacker_capability)
-                interfaces_list = ', '.join(implementation.interfaces)
+                self.document.text.addElement(P(text=capability_text))
+                interfaces_names = [str(interface) for interface in implementation.interfaces]
+                interfaces_list = ', '.join(interfaces_names)
                 interfaces_text = (
                     f'Интерфейсы: {interfaces_list}'
                 )
-                self.document.text.addElement(interfaces_text)
+                self.document.text.addElement(P(text=interfaces_text))
                 for scenario_step in implementation.scenario:
                     tactic = P(text=f'{scenario_step.tactic}')
                     techniques_list = [
