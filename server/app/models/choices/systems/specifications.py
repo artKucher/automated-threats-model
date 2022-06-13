@@ -27,13 +27,13 @@ class ISPDNSpecificationChoices(models.TextChoices):
 
 @extend_choices(BaseSpecificationChoices)
 class GISSpecificationChoices(models.TextChoices):
-    ...
+    COMMUNICATION = 'COMMUNICATION', 'Связь'
 
 
 @extend_choices(BaseSpecificationChoices)
 class ASUTPSpecificationChoices(models.TextChoices):
     GOVERNMENT = 'GOVERNMENT', 'Государственная'
-    MANUFACTURE = 'MANUFACTURE', 'Производство'
+    INDUSTRY = 'INDUSTRY', 'Промышленность'
 
 
 @extend_choices(BaseSpecificationChoices)
