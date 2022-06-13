@@ -52,8 +52,8 @@ class ReportPrinter:
             self.document.text.addElement(threat_name)
             self.document.text.addElement(P(text='Способы реализации:'))
             for implementation in threat.implementations:
-                implementation_name = P(text=implementation.implementation)
-                self.document.text.addElement(implementation_name)
+                self.document.text.addElement(P(text=''))
+                self.document.text.addElement(P(text=implementation.implementation))
                 capability_text = (
                     f'Требуемый уровень возможностей нарушителя: '
                     f'{implementation.attacker_capability}'
