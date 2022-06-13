@@ -60,7 +60,7 @@ class ReportBuilder:
         threat_assets = Asset.objects.filter(id__in=assets_ids, asset_type__in=threat.asset_types.all())
         interfaces = Interface.objects.filter(
             asset_type__assets__in=threat_assets
-        )
+        ).all()
         results = []
         for implementation_method in implementation_methods:
             scenario = self.get_scenarios(implementation_method.attacker_capability, interfaces)
