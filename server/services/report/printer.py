@@ -53,15 +53,24 @@ class ReportPrinter:
             self.document.text.addElement(P(text='Способы реализации:'))
             for implementation in threat.implementations:
                 implementation_name = P(text=implementation.implementation)
-                assets_list = self.generate_numbered_list(implementation.assets)
                 self.document.text.addElement(implementation_name)
-                self.document.text.addElement(
-                    P(text='Объекты через которые можно использовать данный способ реализации')
+                capability_text = (
+                    f'Требуемый уровень возможностей нарушителя '
+                    f'не ниже {implementation.attacker_capability}'
                 )
-                self.document.text.addElement(assets_list)
+                attacker_capability = P(text=capability_text)
+                self.document.text.addElement(attacker_capability)
+                interfaces_list = ', '.join(implementation.interfaces)
+                interfaces_text = (
+                    f'Интерфейсы: {interfaces_list}'
+                )
+                self.document.text.addElement(interfaces_text)
                 for scenario_step in implementation.scenario:
                     tactic = P(text=f'{scenario_step.tactic}')
-                    techniques_list = [f'T{scenario_step.tactic.number}.{technique_number}' for technique_number in scenario_step.techniques]
+                    techniques_list = [
+                        f'T{scenario_step.tactic.number}.{technique_number}'
+                        for technique_number in scenario_step.techniques
+                    ]
                     techniques = P(text=', '.join(techniques_list))
                     self.document.text.addElement(tactic)
                     self.document.text.addElement(techniques)

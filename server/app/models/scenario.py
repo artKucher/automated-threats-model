@@ -26,7 +26,7 @@ class Tactic(BaseModel):
         verbose_name_plural = 'Тактики'
 
     def __str__(self):
-        return f'Т{self.number} {self.name}'
+        return f'Т{self.number}. {self.name}'
 
 
 class Technique(BaseModel):

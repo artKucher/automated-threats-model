@@ -1,5 +1,7 @@
 from typing import List
 from django.contrib.postgres.aggregates import ArrayAgg
+from django.db.models import Q
+
 from app.models import Attacker, ThreatsImplementationMethod, Capability, Threat, AssetType, Tactic, Technique, Asset, \
     Interface, NegativeConsequence
 from services.report.report import Report, ReportThreat, ReportThreatImplementation, ReportScenarios
@@ -29,7 +31,7 @@ class ReportBuilder:
         threats = Threat.objects.prefetch_related('asset_types__assets').filter(
             asset_types__assets__in=assets,
             implementation_methods__attacker_capability__in=attackers_capabilities,
-        ).distinct().all()
+        ).distinct().all()[:2]
         report_threats = []
         for threat in threats:
             implementation_method = self.get_implementation_methods(attackers_capabilities, threat, assets)
@@ -53,7 +55,7 @@ class ReportBuilder:
         implementation_methods = ThreatsImplementationMethod.objects.select_related('group').filter(
             attacker_capability__in=attackers_capabilities,
             threats__id__contains=threat.id
-        ).distinct().all()
+        ).distinct().all()[:2]
         assets_ids = [asset.id for asset in assets]
         threat_assets = Asset.objects.filter(id__in=assets_ids, asset_type__in=threat.asset_types.all())
         interfaces = Interface.objects.filter(
@@ -61,7 +63,7 @@ class ReportBuilder:
         )
         results = []
         for implementation_method in implementation_methods:
-            scenario = self.get_scenarios(implementation_method, interfaces)
+            scenario = self.get_scenarios(implementation_method.attacker_capability, interfaces)
             if not scenario:
                 continue
             results.append(
@@ -69,18 +71,19 @@ class ReportBuilder:
                     implementation=implementation_method,
                     scenario=scenario,
                     assets=threat_assets,
+                    interfaces=interfaces,
+                    attacker_capability=implementation_method.attacker_capability,
                 )
             )
         return results
 
     def get_scenarios(self,
-                      implementation_method: ThreatsImplementationMethod,
+                      attacker_capability: Capability,
                       interfaces: List[Interface]) -> List[ReportScenarios]:
-        attacker_capability = implementation_method.attacker_capability
 
         tactics = Tactic.objects.filter(
-            techniques__capability=attacker_capability,
-            techniques__interface__in=interfaces,
+            Q(techniques__interface__in=interfaces) | Q(techniques__interface__isnull=True),
+            techniques__capability__level__lte=attacker_capability.level,
         ).order_by(
             'number'
         ).annotate(
@@ -94,7 +97,7 @@ class ReportBuilder:
             results.append(
                 ReportScenarios(
                     tactic=tactic,
-                    techniques=tactic.techniques_list,
+                    techniques=sorted(tactic.techniques_list),
                 )
             )
         return results

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Optional
-from app.models import Asset, NegativeConsequence, Attacker, ThreatsImplementationMethod, Threat, Technique, Tactic
+from app.models import Asset, NegativeConsequence, Attacker, ThreatsImplementationMethod, Threat, Technique, Tactic, \
+    Interface, Capability
 from users_system.models import System as UserSystem
 
 
@@ -15,6 +16,8 @@ class ReportThreatImplementation:
     implementation: ThreatsImplementationMethod
     scenario: List[ReportScenarios]
     assets: Optional[List[Asset]]
+    interfaces: List[Interface]
+    attacker_capability: List[Capability]
 
 
 @dataclass
