@@ -5,6 +5,7 @@ from . import views
 router = DefaultRouter()
 router.register('assets-types', views.AssetTypeViewSet)
 router.register('assets', views.AssetsViewSet)
+router.register('negative-consequences', views.NegativeConsequencesViewSet)
 router.register('systems/classes/ispdn', views.ISPDNClassesViewSet)
 router.register('systems/classes/asutp', views.ASUTPClassesViewSet)
 router.register('systems/classes/gis', views.GISClassesViewSet)

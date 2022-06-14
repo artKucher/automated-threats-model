@@ -61,3 +61,8 @@ class KIIClassesViewSet(NegativeConsequenceMixin, viewsets.ReadOnlyModelViewSet)
     queryset = KIIClass.objects.all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = {'specification': ['in'], 'significance_attribute': ['exact']}
+
+
+class NegativeConsequencesViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = NegativeConsequenceSerializer
+    queryset = NegativeConsequence.objects.select_related('group').all()
