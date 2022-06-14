@@ -25,7 +25,7 @@
         alias /app/media;
     }
 
-    location ~ ^/(admin|api) {
+    location ~ ^/(admin|api|swagger) {
         proxy_pass http://django:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
