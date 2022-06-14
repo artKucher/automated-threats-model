@@ -32,7 +32,7 @@ class AssetsViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = AssetSerializer
     queryset = Asset.objects.select_related('asset_type', 'vendor').all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-    filterset_fields = ['asset_type',]
+    filterset_fields = {'asset_type': ['in']}
 
 
 class ISPDNClassesViewSet(NegativeConsequenceMixin, viewsets.ReadOnlyModelViewSet):

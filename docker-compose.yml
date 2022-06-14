@@ -51,6 +51,7 @@ services:
       - frontend
 
   frontend:
+    command: tail -f /dev/null
     build:
       context: ./frontend
       dockerfile: Dockerfile
