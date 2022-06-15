@@ -80,3 +80,4 @@ class KIIClassesViewSet(NegativeConsequenceMixin, viewsets.ReadOnlyModelViewSet)
 class NegativeConsequencesViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = NegativeConsequenceSerializer
     queryset = NegativeConsequence.objects.select_related('group').all()
+    pagination_class = None
