@@ -57,6 +57,7 @@ services:
       dockerfile: Dockerfile
       args:
         buildno: 1
+        frontend_token: ''
     container_name: frontend
     image: frontend
     volumes:
