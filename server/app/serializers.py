@@ -23,6 +23,12 @@ class AssetSerializer(serializers.ModelSerializer):
                   'vendor_name']
 
 
+class AssetIdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Asset
+        fields = ['id']
+
+
 class ISPDNClassSerializer(serializers.ModelSerializer):
 
     class Meta:

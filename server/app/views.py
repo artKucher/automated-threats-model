@@ -1,5 +1,5 @@
 import django_filters.rest_framework
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -20,6 +20,7 @@ from .serializers import (
     ASUTPClassSerializer,
     KIIClassSerializer,
     NegativeConsequenceSerializer,
+    AssetIdsSerializer,
 )
 
 
@@ -47,6 +48,14 @@ class AssetsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Asset.objects.select_related('asset_type', 'vendor').all()
     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = {'asset_type': ['in']}
+
+
+class AssetsIdsViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = AssetIdsSerializer
+    queryset = Asset.objects.select_related('asset_type').all()
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
+    filterset_fields = {'asset_type': ['in']}
+    pagination_class = None
 
 
 class ISPDNClassesViewSet(NegativeConsequenceMixin, viewsets.ReadOnlyModelViewSet):

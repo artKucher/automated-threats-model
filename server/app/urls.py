@@ -4,6 +4,7 @@ from . import views
 
 router = DefaultRouter()
 router.register('assets-types', views.AssetTypeViewSet)
+router.register('assets/ids', views.AssetsIdsViewSet)
 router.register('assets', views.AssetsViewSet)
 router.register('negative-consequences', views.NegativeConsequencesViewSet)
 router.register('systems/classes/ispdn', views.ISPDNClassesViewSet)
