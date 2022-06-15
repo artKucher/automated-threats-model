@@ -12,8 +12,12 @@ class System(BaseModel):
     asutp_classes = models.ManyToManyField(ASUTPClass, verbose_name='Классы АСУТП', blank=True)
     kii_classes = models.ManyToManyField(KIIClass, verbose_name='Классы КИИ', blank=True)
 
-    assets = models.ManyToManyField(Asset, verbose_name='Объекты')
-    negative_consequences = models.ManyToManyField(NegativeConsequence, verbose_name='Негативные последствия')
+    assets = models.ManyToManyField(Asset, verbose_name='Объекты', blank=True)
+    negative_consequences = models.ManyToManyField(
+        NegativeConsequence,
+        verbose_name='Негативные последствия',
+        blank=True
+    )
 
     class Meta:
         verbose_name = 'Система'
