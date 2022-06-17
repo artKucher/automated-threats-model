@@ -14,3 +14,4 @@ xhtml2pdf
 django-modeladmin-reorder
 odfpy
 django-cors-headers
+matplotlib
