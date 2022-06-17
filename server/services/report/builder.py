@@ -31,7 +31,7 @@ class ReportBuilder:
         threats = Threat.objects.prefetch_related('asset_types__assets').filter(
             asset_types__assets__in=assets,
             implementation_methods__attacker_capability__in=attackers_capabilities,
-        ).distinct().all()[:2]
+        ).distinct().all()
         report_threats = []
         for threat in threats:
             implementation_method = self.get_implementation_methods(attackers_capabilities, threat, assets)
@@ -55,7 +55,7 @@ class ReportBuilder:
         implementation_methods = ThreatsImplementationMethod.objects.select_related('group').filter(
             attacker_capability__in=attackers_capabilities,
             threats__id__contains=threat.id
-        ).distinct().all()[:2]
+        ).distinct().all()
         assets_ids = [asset.id for asset in assets]
         threat_assets = Asset.objects.filter(id__in=assets_ids, asset_type__in=threat.asset_types.all())
         interfaces = Interface.objects.filter(
