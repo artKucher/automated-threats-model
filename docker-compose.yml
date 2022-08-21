@@ -1,0 +1,65 @@
+version: '3'
+services:
+  django:
+    command: /usr/local/bin/gunicorn backend.asgi:application -w 2 -b :8000 -k uvicorn.workers.UvicornWorker
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      args:
+        buildno: 1
+    image: django
+    container_name: django_atm
+    env_file: server/.env
+    volumes:
+      - ./server:/server
+      - ./logs/gunicorn:/var/log/gunicorn
+    expose:
+      - "8000"
+    depends_on:
+      - postgres
+    restart: always
+
+  postgres:
+    image: postgres
+    container_name: postgres_atm
+    restart: always
+    expose:
+      - "5432"
+    env_file: server/.env
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  nginx:
+    container_name: nginx_atm
+    restart: always
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./logs/nginx:/var/log/nginx
+      - ./nginx/conf:/etc/nginx/conf
+      - ./nginx/sites-enabled:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/nginx/certs
+      - ./server:/app
+      - ./frontend/dist:/dist
+    depends_on:
+      - postgres
+      - django
+      - frontend
+
+  frontend:
+    command: tail -f /dev/null
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        buildno: 1
+        frontend_token: ''
+    container_name: frontend
+    image: frontend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
