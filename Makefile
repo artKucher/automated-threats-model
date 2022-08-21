@@ -14,13 +14,13 @@ set-container:
 	$(eval $(call set-default-container))
 
 build: set-container
-	docker compose -f docker-compose.yml -f docker-compose-dev.yml build ${c}
+	docker compose -f docker-compose.yml -f docker-compose.dev.yml build ${c}
 
 prod:
 	docker compose up -d --force-recreate ${c}
 
 up:
-	docker compose -f docker-compose.yml -f docker-compose-dev.yml up -d --force-recreate ${c}
+	docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --force-recreate ${c}
 
 restart: set-container
 	docker compose restart ${c}
